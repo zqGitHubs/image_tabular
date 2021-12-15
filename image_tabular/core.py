@@ -9,7 +9,7 @@ from typing import Tuple
 from torch import Tensor
 
 # Cell
-def get_valid_index(df, valid_pct:float=0.2, seed:int=0):
+def get_valid_index(df, valid_pct=0.2, seed=0):
     """generate valid index that will be used to split both image and tabular data"""
     np.random.seed(seed)
     rand_idx = np.random.permutation(range_of(df))
@@ -18,11 +18,11 @@ def get_valid_index(df, valid_pct:float=0.2, seed:int=0):
     return val_idx
 
 # Cell
-def _normalize_batch_image_tab(b:Tuple[Tensor,Tensor],
-                               mean:FloatTensor,
-                               std:FloatTensor,
-                               do_x:bool=True,
-                               do_y:bool=False):
+def _normalize_batch_image_tab(b,
+                               mean,
+                               std,
+                               do_x=True,
+                               do_y=False):
     "`b` = `x`,`y` - normalize `x` array of imgs and `do_y` optionally `y`."
     x,y = b
     # only normalize image not tabular data
@@ -30,9 +30,9 @@ def _normalize_batch_image_tab(b:Tuple[Tensor,Tensor],
     if do_x: x[0] = normalize(x[0],mean,std)
     return x,y
 
-def normalize_funcs_image_tab(mean:FloatTensor,
-                              std:FloatTensor, do_x:bool=True,
-                              do_y:bool=False):
+def normalize_funcs_image_tab(mean,
+                              std, do_x=True,
+                              do_y=False):
     "Create normalize/denormalize func using `mean` and `std`, can specify `do_y` and `device`."
     mean,std = tensor(mean),tensor(std)
     # use custom _normalize_batch_image_tab function to accommodate (image_data, tabular_data)
