@@ -22,7 +22,7 @@ def _normalize_batch_image_tab(b:Tuple[Tensor,Tensor],
                                mean:FloatTensor,
                                std:FloatTensor,
                                do_x:bool=True,
-                               do_y:bool=False)->Tuple[Tensor,Tensor]:
+                               do_y:bool=False):
     "`b` = `x`,`y` - normalize `x` array of imgs and `do_y` optionally `y`."
     x,y = b
     # only normalize image not tabular data
@@ -32,7 +32,7 @@ def _normalize_batch_image_tab(b:Tuple[Tensor,Tensor],
 
 def normalize_funcs_image_tab(mean:FloatTensor,
                               std:FloatTensor, do_x:bool=True,
-                              do_y:bool=False)->Tuple[Callable,Callable]:
+                              do_y:bool=False):
     "Create normalize/denormalize func using `mean` and `std`, can specify `do_y` and `device`."
     mean,std = tensor(mean),tensor(std)
     # use custom _normalize_batch_image_tab function to accommodate (image_data, tabular_data)
